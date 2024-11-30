@@ -1,0 +1,100 @@
+/* Center the search container */
+.search-container {
+    display: flex;
+    justify-content: center; /* Centers the search bar horizontally */
+    align-items: center;
+    gap: 8px; /* Spacing between search bar and button */
+    margin-bottom: 16px;
+    width: 100%; /* Ensures it spans the width of the page */
+  }
+  
+  /* Styling the search input (rounded and centered) */
+  #searchInput {
+    padding: 10px 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 25px; /* Makes the search bar rounded */
+    outline: none;
+    width: 300px; /* Adjust the width as desired */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for better look */
+  }
+  
+  /* Styling the search button (square shape) */
+  #searchButton {
+    padding: 10px 16px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff; /* Blue */
+    border: none;
+    border-radius: 8px; /* Slightly rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  #searchButton:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  #searchButton:active {
+    background-color: #004085; /* Even darker blue */
+    transform: scale(0.98); /* Slightly reduces size on click */
+  }
+  
+  /* Styling the dropdown */
+  .dropdown-menu {
+    border: 1px solid #ccc;
+    background-color: white;
+    position: absolute;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 300px;
+    display: none;
+    border-radius: 8px; /* Slight rounding for better appearance */
+  }
+  
+  .dropdown-item {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Styling the results table */
+  #studentList {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  #studentList th, #studentList td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  #studentList th {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  /* Styling the pagination buttons */
+  .pagination button {
+    padding: 8px 16px;
+    margin: 8px 4px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .pagination button:hover {
+    background-color: #0056b3;
+  }
+  
+  
+  
+  
+  
+  
+  

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Search</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #2f2f32;
+    }
+
+    .search-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+      position: relative;
+    }
+
+    #searchInput {
+      padding: 12px 20px;
+      font-size: 16px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 30px;
+      margin: 0;
+      transition: border 0.3s ease;
+    }
+
+    #dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: rgb(255, 255, 255);
+      border: 1px solid #ffffff;
+      border-radius: 0 0 30px 30px;
+      max-height: 300px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+    }
+
+    .dropdown-item {
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f1f1f1;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    #searchButton, #clearSearchButton {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    #searchButton:hover, #clearSearchButton:hover {
+      background-color: #1558b1;
+    }
+
+    #clearSearchButton {
+      background-color: #f44336;
+    }
+
+    #clearSearchButton:hover {
+      background-color: #d32f2f;
+    }
+
+    #resultsSection {
+      display: none;
+      width: 100%;
+      max-width: 600px;
+      margin-top: 20px;
+    }
+
+    #studentList {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #studentList th, #studentList td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .pagination {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .pagination button {
+      padding: 5px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin: 0 5px;
+      border-radius: 5px;
+    }
+
+    .pagination button:hover {
+      background-color: #0056b3;
+    }
+
+    #noResults {
+      font-size: 18px;
+      color: #ff0000;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 126px;
+      font-family: 'Times New Roman', serif;
+      font-weight: bold;
+      color: black;
+      text-shadow: 1.5px 1.5px 3px lightcoral, 0 0 12px darkred, 0 0 2px darkred;
+      margin-bottom: 20px;
+      -webkit-text-stroke: 2px green;
+      text-stroke: 2px green;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="search-container">
+    <div class="title">Student Directory</div>
+    <div class="button-container">
+      <button id="searchButton">Search</button>
+      <button id="clearSearchButton">Clear</button>
+    </div>
+    <input type="text" id="searchInput" placeholder="Search students...">
+    <div id="dropdown" role="listbox" aria-expanded="false"></div>
+  </div>
+  
+  <section id="resultsSection">
+    <div id="noResults" style="display: none;">No results found :(</div>
+    <table id="studentList">
+      <thead>
+        <tr>
+          <th>Full Name</th>
+          <th>ID</th>
+          <th>Major</th>
+          <th>College</th>
+          <th>Classification</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+  <script>
+    let students = [];
+  
+    fetch('mock.json')
+      .then(response => response.json())
+      .then(data => {
+        students = data;
+      })
+      .catch(error => console.error('Error fetching student data:', error));
+  
+    document.getElementById('searchButton').addEventListener('click', function() {
+      const searchInput = document.getElementById('searchInput').value.trim();
+      if (searchInput) {
+        const searchQuery = encodeURIComponent(searchInput);
+        window.location.href = `page2.html?query=${searchQuery}`;
+      }
+      document.getElementById('dropdown').style.display = 'none';
+      document.getElementById('noResults').style.display = 'none';
+    });
+  
+    document.getElementById('clearSearchButton').addEventListener('click', function() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('dropdown').style.display = 'none';
+      document.getElementById('noResults').style.display = 'none';
+    });
+  
+    const searchInput = document.getElementById('searchInput');
+    const dropdown = document.getElementById('dropdown');
+  
+    searchInput.addEventListener('input', function() {
+      const searchText = searchInput.value.toLowerCase().trim();
+  
+      if (searchText.length >= 3) {
+        const filteredStudents = students.filter(student =>
+          `${student.first_name} ${student.last_name}`.toLowerCase().includes(searchText)
+        );
+  
+        dropdown.innerHTML = '';
+  
+        if (filteredStudents.length > 0) {
+          filteredStudents.forEach(student => {
+            const div = document.createElement('div');
+            div.classList.add('dropdown-item');
+            div.textContent = `${student.first_name} ${student.last_name}`;
+            div.addEventListener('click', function() {
+              searchInput.value = `${student.first_name} ${student.last_name}`;
+              const studentName = `${student.first_name} ${student.last_name}`;
+              const searchQuery = encodeURIComponent(studentName);
+              window.location.href = `page2.html?query=${searchQuery}`;
+              dropdown.style.display = 'none';
+            });
+            dropdown.appendChild(div);
+          });
+          dropdown.style.display = 'block';
+          dropdown.setAttribute('aria-expanded', 'true');
+          document.getElementById('noResults').style.display = 'none';
+        } else {
+          dropdown.style.display = 'none';
+          document.getElementById('noResults').style.display = 'block';
+        }
+      } else {
+        dropdown.style.display = 'none';
+        document.getElementById('noResults').style.display = 'none';
+      }
+    });
+  
+    document.addEventListener('click', function(event) {
+      if (!dropdown.contains(event.target) && event.target !== searchInput) {
+        dropdown.style.display = 'none';
+      }
+    });
+  
+    searchInput.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        document.getElementById('searchButton').click();
+      }
+    });
+  </script>  
+</body>
+</html>
