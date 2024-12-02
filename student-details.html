@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Details</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .details-container {
+      width: 80%;
+      max-width: 800px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .back-btn {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 15px;
+    }
+
+    .back-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="details-container">
+    <h1>Student Details</h1>
+    <table id="studentDetailsTable">
+      <tr>
+        <th>Full Name</th>
+        <td id="fullName"></td>
+      </tr>
+      <tr>
+        <th>Major</th>
+        <td id="major"></td>
+      </tr>
+      <tr>
+        <th>College</th>
+        <td id="college"></td>
+      </tr>
+      <tr>
+        <th>Classification</th>
+        <td id="classification"></td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td id="email"></td>
+      </tr>
+      <tr>
+        <th>GPA</th>
+        <td id="gpa"></td>
+      </tr>
+      <tr>
+        <th>Employer</th>
+        <td id="employer"></td>
+      </tr>
+    </table>
+
+    <button class="back-btn" id="backButton">Back to Search</button>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const studentId = urlParams.get('id');
+      const studentDetailsTable = document.getElementById('studentDetailsTable');
+      
+      fetch('mock.json')
+        .then(response => response.json())
+        .then(students => {
+          const student = students.find(s => s.id === parseInt(studentId));
+          if (student) {
+            document.getElementById('fullName').textContent = `${student.first_name} ${student.last_name}`;
+            document.getElementById('major').textContent = student.major;
+            document.getElementById('college').textContent = student.college;
+            document.getElementById('classification').textContent = student.classification;
+            document.getElementById('email').textContent = `${student.first_name.charAt(0).toLowerCase()}${student.last_name.toLowerCase()}@tnstate.edu`;
+            document.getElementById('gpa').textContent = student.gpa;
+            document.getElementById('employer').textContent = student.employer || 'N/A';
+          } else {
+            studentDetailsTable.innerHTML = '<tr><td colspan="2">Student not found.</td></tr>';
+          }
+        })
+        .catch(error => console.error('Error fetching student data:', error));
+
+      document.getElementById('backButton').addEventListener('click', () => {
+        window.history.back();
+      });
+    });
+  </script>
+
+</body>
+</html>
