@@ -10,6 +10,7 @@ fetch('mock.json')
     const searchButton = document.getElementById('searchButton');
     const clearSearchButton = document.getElementById('clearSearchButton');
     const dropdown = document.getElementById('dropdown');
+    searchInput.addEventListener('input', function(){});
     const studentListElement = document.getElementById('studentList').getElementsByTagName('tbody')[0];
     const noResults = document.getElementById('noResults');
     const resultsSection = document.getElementById('resultsSection');
@@ -92,7 +93,13 @@ fetch('mock.json')
           suggestion.addEventListener('click', () => {
             searchInput.value = suggestion.innerText;
             dropdown.style.display = 'none';
-            displayStudents(filteredStudents);
+            const selectedStudent = filteredStudents.filter(student =>
+            `${student.first_name} ${student.last_name}` === suggestion.innerText
+            );
+
+            if (selectedStudente.length > 0) {
+            displayStudents(selectedStudent);
+            }
           });
           dropdown.appendChild(suggestion);
         });
