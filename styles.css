@@ -9,15 +9,37 @@ body {
 /* Styling the header with the logo */
 .header-container {
   display: flex;
-  justify-content: center; /* Centers the logo horizontally */
-  align-items: center;
-  margin-top: 20px; /* Spacing from the top of the page */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically in the header */
+  width: 100%;
+  position: fixed; /* Keeps logo at the top even when scrolling */
+  top: 0; /* Stick it at the top of the viewport */
+  left: 0;
+  background-color: #fff; /* Optional: Ensures clear background for visibility */
+  z-index: 1000; /* Makes sure it sits above other elements */
 }
 
 /* Styling the logo */
 .logo {
-  max-width: 200px; /* Adjust size as needed */
+  max-width: 150px; /* Adjust size as needed */
   height: auto; /* Maintain aspect ratio */
+}
+
+/* Styling the tiger image */
+.tiger {
+  max-width: 120px; /* Adjust size as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 20px; /* Space between header and content */
+}
+
+/* Reusing existing styles for search container */
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  width: 100%;
 }
 
 /* Styling the container for the student directory and tiger images */
@@ -34,7 +56,7 @@ body {
   position: absolute; /* Position relative to the directory container */
   top: 50%; /* Vertically centers the image */
   transform: translateY(-50%); /* Adjusts for vertical centering */
-  max-width: 120px; /* Adjust size as needed */
+  max-width: 1000px; /* Adjust size as needed */
   height: auto; /* Maintain aspect ratio */
 }
 
